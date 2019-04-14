@@ -1,6 +1,6 @@
-name:                23State
+name:                24ParserCombinators
 version:             0.1.0.0
-github:              "githubuser/23State"
+github:              "githubuser/24ParserCombinators"
 license:             BSD3
 author:              "Author name here"
 maintainer:          "example@example.com"
@@ -17,13 +17,11 @@ extra-source-files:
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is
 # common to point users to the README.md file.
-description:         Please see the README on GitHub at <https://github.com/githubuser/23State#readme>
+description:         Please see the README on GitHub at <https://github.com/githubuser/24ParserCombinators#readme>
 
 dependencies:
 - base >= 4.7 && < 5
-- random
-- transformers
-- dlist
+- trifecta
 
 library:
   source-dirs:
@@ -31,7 +29,7 @@ library:
     - .
 
 executables:
-  23State-exe:
+  24ParserCombinators-exe:
     main:                Main.hs
     source-dirs:         app
     ghc-options:
@@ -39,10 +37,10 @@ executables:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - 23State
+    - 24ParserCombinators
 
 tests:
-  23State-test:
+  24ParserCombinators-test:
     main:                Spec.hs
     source-dirs:         test
     ghc-options:
@@ -50,4 +48,4 @@ tests:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - 23State
+    - 24ParserCombinators

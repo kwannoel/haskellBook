@@ -13,3 +13,9 @@ instance Applicative (Moi s) where
   Moi f <*> Moi a = Moi $ \s -> let (a1, s1) = a s
                                     (ab, s2) = f s1
                                 in  (ab a1, s2)
+
+instance Monad (Moi s) where
+  return = pure
+  -- m a -> (a -> m b) -> m b
+  Moi sa >>= f = Moi $ \s -> let (a, s1) = sa s
+                             in  runMoi (f a) s1
