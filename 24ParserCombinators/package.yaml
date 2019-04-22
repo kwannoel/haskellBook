@@ -29,6 +29,7 @@ dependencies:
 - text
 - attoparsec
 - parsec
+- aeson
 
 library:
   source-dirs:

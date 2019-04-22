@@ -51,12 +51,21 @@ main :: IO ()
 main = do
 -- trifecta
   trifP nobackParse "3"
+  trifP nobackParse "12"
   trifP nobackParse "13"
-  trifP tryParse "13"
+  putStrLn "\n\n\n\n"
   trifP tryParse "3"
+  trifP tryParse "12"
+  trifP tryParse "13"
+  putStrLn "\n\n\n\n"
+  trifP tryAnnot "13"
+  trifP tryAnnot "12"
+  trifP tryAnnot "3"
   -- parsec
+  putStrLn "\n\n\n\n"
   parsecP nobackParse "13"
   parsecP tryParse "13"
   -- attoparsec
+  putStrLn "\n\n\n\n"
   attoP nobackParse "13"
   attoP tryParse "13"
