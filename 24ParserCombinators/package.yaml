@@ -30,6 +30,7 @@ dependencies:
 - attoparsec
 - parsec
 - aeson
+- sort
 
 library:
   source-dirs:
