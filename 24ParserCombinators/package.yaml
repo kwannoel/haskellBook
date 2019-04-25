@@ -31,6 +31,9 @@ dependencies:
 - parsec
 - aeson
 - sort
+- parser-combinators
+- QuickCheck
+- random
 
 library:
   source-dirs:

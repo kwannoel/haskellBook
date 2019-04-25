@@ -1,4 +1,4 @@
-module Exercises where
+module Exercises2 where
 
 import Text.Trifecta
 import Control.Applicative
