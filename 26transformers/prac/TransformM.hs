@@ -37,4 +37,26 @@ instance (Monad m) => Monad (MaybeT m) where
 newtype EitherT e m a =
   EitherT { runEitherT :: m (Either e a)}
 
-instance 
+instance Functor m
+      => Functor (EitherT e m) where
+  fmap f (EitherT ema) = EitherT $ (fmap . fmap) f ema
+
+instance Applicative m
+      => Applicative (EitherT e m) where
+  pure = EitherT . pure . pure
+  f <*> a = EitherT $ (<*>) <$> runEitherT f <*> runEitherT a
+
+instance Monad m
+      => Monad (EitherT e m) where
+  return = pure
+  v >>= f =
+    EitherT $ runEitherT v >>=
+    \lr -> case lr of
+      Left x -> return (Left x)
+      Right y -> runEitherT . f $ y
+
+swapEitherT :: Functor m => EitherT e m a -> EitherT a m e
+swapEitherT e = EitherT $ swapEither <$> runEitherT e where
+  swapEither :: Either e a -> Either a e
+  swapEither (Left a) = Right a
+  swapEither (Right a) = Left a
