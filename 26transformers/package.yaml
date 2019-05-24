@@ -24,6 +24,9 @@ dependencies:
 - QuickCheck
 - checkers
 - transformers
+- scotty
+- text
+- containers
 
 library:
   source-dirs:

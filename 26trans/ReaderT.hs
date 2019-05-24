@@ -1,12 +1,9 @@
 {-# LANGUAGE InstanceSigs #-}
 module ReaderT where
 
--- import Test.QuickCheck
--- import Test.QuickCheck.Classes
--- import Test.QuickCheck.Checkers
-
-import Control.Monad.IO.Class
-import Control.Monad.Trans.Class
+import Test.QuickCheck
+import Test.QuickCheck.Checkers
+import Test.QuickCheck.Classes
 
 newtype ReaderT r m a =
   ReaderT { runReaderT :: r -> m a }
@@ -24,12 +21,6 @@ instance (Monad m) => Monad (ReaderT r m) where
   return = pure
   rf >>= f = ReaderT $
     \r -> runReaderT rf r >>= \ma -> (runReaderT . f) ma r
-
-instance MonadTrans (ReaderT r) where
-  lift = ReaderT . const
-
-instance MonadIO m => MonadIO (ReaderT r m) where
-  liftIO = lift . liftIO
 
 newtype StateT s m a =
   StateT { runStateT :: s -> m (a, s) }
@@ -62,31 +53,7 @@ instance (Monad m) => Monad (StateT r m) where
                 f (a1, s2) = f' a1 s2
             in as >>= f
 
-newtype MaybeT m a = MaybeT { runMaybeT :: m (Maybe a) }
-
-instance Functor m => Functor (MaybeT m) where
-  fmap f (MaybeT ma) = MaybeT $ (fmap . fmap) f ma
-
-instance Applicative m => Applicative (MaybeT m) where
-  pure = MaybeT . pure . pure
-  f <*> a = MaybeT $ (<*>) <$> runMaybeT f <*> runMaybeT a
-
-instance Monad m => Monad (MaybeT m) where
-  return = pure
-  MaybeT a >>= f = MaybeT $
-    a >>= \may -> case may of
-                    Nothing -> return Nothing
-                    Just a1 -> runMaybeT . f $ a1
-    -- a :: m (Maybe a)
-    -- f :: a -> MaybeT m a
-    -- f' :: a -> m (Maybe a)
-
-instance MonadTrans MaybeT where
-  lift = MaybeT . fmap Just
-
-instance (MonadIO m) => MonadIO (MaybeT m) where
-  -- liftIO :: IO a -> m a
-  liftIO = lift . liftIO
-
--- ReaderT r Maybe := ReaderT $ r -> Maybe a
--- MaybeT Reader r := MaybeT $ r -> Maybe a
+main :: IO ()
+main = do
+  quickBatch $ functor (nope :: ReaderT r m (String, Integer, String))
+  quickBatch $ applicative (nope :: ReaderT r m (String, Integer, String))

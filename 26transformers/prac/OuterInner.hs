@@ -16,4 +16,11 @@ exceptUnwrap = runExceptT maybeUnwrap
 readerUnwrap :: () -> IO (Either String (Maybe Int))
 readerUnwrap = runReaderT exceptUnwrap
 
+-- base monad is structurally outer most
+-- i.e. type MyType a = IO [Maybe a]
 
+embedded' :: MaybeT (ExceptT String
+                            (ReaderT () IO))
+                   Int
+  -- b0 -> Either String (Maybe Int)
+embedded' = MaybeT . ExceptT . ReaderT $ (return <$> const (Right (Just 1)))
